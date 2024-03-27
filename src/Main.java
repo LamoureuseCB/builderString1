@@ -10,6 +10,8 @@ public class Main {
             String userName = "User#" + (i + 1);
             int userAge = 20 + i;
             Post[] posts = new Post[random.nextInt(1, 6)];
+            int mostLikedCount = 0;
+            Post mostLikedPost = null;
 
             for (int j = 0; j < posts.length; j++) {
                 String postTitle = userName + " Post#" + (j + 1);
@@ -17,8 +19,14 @@ public class Main {
                 int likesCount = random.nextInt(0, 100_000);
                 posts[j] = new Post(postTitle, description, likesCount);
 
+
+                if(likesCount > mostLikedCount){
+                    mostLikedCount = likesCount;
+                    mostLikedPost = posts[j];
+                }
+
             }
-            users[i] = new User(userName, userAge, posts);
+            users[i] = new User(userName, userAge, posts, mostLikedPost);
         }
         builder.append("[");
         for (User user : users) {
@@ -32,9 +40,21 @@ public class Main {
                         .append("\"title\": \"").append(post.getTitle()).append("\", ")
                         .append("\"description\": \"").append(post.getDescription()).append("\", ")
                         .append("\"likes_count\": ").append(post.getLikesCount())
-                        .append("}").append(",");
+                        .append("},");
             }
-            builder.append("]},");
+            builder.append("],");
+            if (user.getMostLikedPost() != null){
+                builder.append("\"most_liked_post\": ")
+                        .append("{")
+                        .append("\"title\": \"").append(user.getMostLikedPost().getTitle()).append("\", ")
+                        .append("\"description\": \"").append(user.getMostLikedPost().getDescription()).append("\", ")
+                        .append("\"likes_count\":").append(user.getMostLikedPost().getLikesCount())
+                        .append("}");
+            }
+            else{
+                builder.append("\"most_liked_post\": null");
+            }
+            builder.append("},");
         }
         builder.append("]");
         String names = builder.toString();
