@@ -6,11 +6,13 @@ public class User {
     private Post mostLikedPost;
 
 
+
     public User(String name, int age, Post[] post, Post mostLikedPost) {
         this.name = name;
         this.age = age;
         this.post = post;
         this.mostLikedPost = mostLikedPost;
+
     }
 
     public String getName() {
@@ -27,5 +29,24 @@ public class User {
 
     public Post getMostLikedPost() {
         return mostLikedPost;
+    }
+
+    public static String mostLikedUser(User[] users) {
+        String topLikedUser = null;
+        int topLikedUserLikes = 0;
+
+        for (User user : users) {
+            int userTotalLikes = 0;
+            for (Post post : user.getPost()) {
+                userTotalLikes += post.getLikesCount();
+            }
+
+            if (userTotalLikes > topLikedUserLikes) {
+                topLikedUser = user.getName();
+                topLikedUserLikes = userTotalLikes;
+            }
+        }
+
+        return topLikedUser;
     }
 }
