@@ -1,14 +1,14 @@
 import java.util.Random;
 
 public class Main {
-    public static String main(String[] args) {
+    public static void main(String[] args) {
         Random random = new Random();
         StringBuilder builder = new StringBuilder();
         User[] users = new User[10];
         int postCount = 0;
         String mostActiveUser = null;
         int mostActiveUserPost = 0;
-        String topLikedUser = User.mostLikedUser(users);
+        String topLikedUser;
 
 
         for (int i = 0; i < users.length; i++) {
@@ -39,7 +39,9 @@ public class Main {
                 mostActiveUserPost = users[i].getPost().length;
             }
 
+
         }
+        topLikedUser = User.mostLikedUser(users);
         builder.append("{")
                 .append("\"info\": {")
                 .append("\"posts_count\": ").append(postCount).append(", ")
@@ -84,6 +86,7 @@ public class Main {
         builder.append("]}");
         String names = builder.toString();
         System.out.println(names);
+
 
     }
 }
